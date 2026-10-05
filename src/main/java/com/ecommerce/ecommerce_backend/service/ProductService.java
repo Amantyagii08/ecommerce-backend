@@ -3,6 +3,7 @@ import com.ecommerce.ecommerce_backend.entity.Product;
 import com.ecommerce.ecommerce_backend.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import com.ecommerce.ecommerce_backend.exception.ProductNotFoundExcertion;
 
 @Service
 public class ProductService {
@@ -21,14 +22,19 @@ public class ProductService {
     }
     
     public Product getProductById(Long id){
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id).orElseThrow(()-> new 
+             ProductNotFoundExcertion(
+            "Product with id "+id+" not found." ));
+        
     }
 
     public Product updateProduct(Long id, Product product){
-        Product existingProduct = productRepository.findById(id).orElse(null);
+        Product existingProduct = productRepository.findById(id).orElseThrow(()-> new 
+        ProductNotFoundExcertion("Product with id "+id+" not found."));
         if(existingProduct==null){
             return null;
         }
+
         existingProduct.setName(product.getName()) ;
         existingProduct.setPrice(product.getPrice());
         existingProduct.setStock(product.getStock());
@@ -38,7 +44,9 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id){
-         productRepository.deleteById(id);
+        Product product = productRepository.findById(id).orElseThrow(()-> new
+         ProductNotFoundExcertion("Product with id "+id+" not found."));
+         productRepository.delete(product);
     }
 
     

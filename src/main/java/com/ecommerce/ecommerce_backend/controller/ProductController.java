@@ -1,5 +1,4 @@
 package com.ecommerce.ecommerce_backend.controller;
-
 import com.ecommerce.ecommerce_backend.service.ProductService;
 import com.ecommerce.ecommerce_backend.entity.Product;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +10,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+
 
 @RestController  
 @RequestMapping("/products")
@@ -23,8 +25,11 @@ public ProductController(ProductService productService){
 }
 
 @PostMapping 
-public Product addProduct(@RequestBody Product product){
-    return productService.addProduct(product);
+public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product){
+
+    Product savedProduct = productService.addProduct(product);
+
+    return ResponseEntity.status(201).body(savedProduct);
 }
 
 @GetMapping 
@@ -43,8 +48,10 @@ public Product updateProduct(@PathVariable Long id, @RequestBody Product product
 }
 
 @DeleteMapping ("/{id}")
-public void deleteProduct(@PathVariable Long id){
+public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
     productService.deleteProduct(id);
+
+    return ResponseEntity.noContent().build();
 }
 
 

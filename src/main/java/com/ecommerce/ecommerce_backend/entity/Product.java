@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 
   @Entity 
 public class Product {
@@ -11,10 +14,17 @@ public class Product {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
+    @NotBlank (message ="Product should have a Name.")
     private String name;
+
+    @Positive (message = "Price should be greater then Zero.")
     private double price;
+
+    @PositiveOrZero (message = "Stock can't be negative.")
     private int stock;
+
+    @NotBlank (message = "Product should have a description.")
     private String description;
     
     public long getId() {
