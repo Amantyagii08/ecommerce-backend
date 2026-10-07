@@ -15,7 +15,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @NotBlank (message ="Product should have a Name.")
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    @NotBlank (message ="Product name is required.")
     private String name;
 
     @Positive (message = "Price should be greater then Zero.")
@@ -24,15 +30,11 @@ public class Product {
     @PositiveOrZero (message = "Stock can't be negative.")
     private int stock;
 
-    @NotBlank (message = "Product should have a description.")
+    @NotBlank (message = "Product description is required.")
     private String description;
     
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
+   
+    
     public String getName() {
         return name;
     }
