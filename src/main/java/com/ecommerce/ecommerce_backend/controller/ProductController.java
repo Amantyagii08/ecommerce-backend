@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
+import com.ecommerce.ecommerce_backend.dto.ProductRequest;
 
 
 @RestController  
@@ -25,9 +26,9 @@ public ProductController(ProductService productService){
 }
 
 @PostMapping 
-public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product){
+public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequest request){
 
-    Product savedProduct = productService.addProduct(product);
+    Product savedProduct = productService.addProduct(request);
 
     return ResponseEntity.status(201).body(savedProduct);
 }
@@ -43,8 +44,8 @@ public Product getProductById(@PathVariable long id){
 }
 
 @PutMapping("/{id}")
-public Product updateProduct(@PathVariable Long id, @RequestBody Product product){
-    return productService.updateProduct(id, product);
+public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequest request){
+    return productService.updateProduct(id, request);
 }
 
 @DeleteMapping ("/{id}")

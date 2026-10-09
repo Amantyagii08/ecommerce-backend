@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Positive;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+
 
   @Entity 
 public class Product {
@@ -33,6 +36,9 @@ public class Product {
     @NotBlank (message = "Product description is required.")
     private String description;
     
+    @ManyToOne 
+    @JoinColumn (name = "category_id")
+    private Category category;
    
     
     public String getName() {
@@ -58,6 +64,12 @@ public class Product {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Category getCategory() {
+        return category;
+    }
+    public void setCategory(Category category) {
+        this.category = category;
     }
     
 
