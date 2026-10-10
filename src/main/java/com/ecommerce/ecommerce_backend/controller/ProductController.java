@@ -1,6 +1,5 @@
 package com.ecommerce.ecommerce_backend.controller;
 import com.ecommerce.ecommerce_backend.service.ProductService;
-import com.ecommerce.ecommerce_backend.entity.Product;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import com.ecommerce.ecommerce_backend.dto.ProductRequest;
+import com.ecommerce.ecommerce_backend.dto.ProductResponse;
 
 
 @RestController  
@@ -26,25 +26,25 @@ public ProductController(ProductService productService){
 }
 
 @PostMapping 
-public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequest request){
+public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest request){
 
-    Product savedProduct = productService.addProduct(request);
+    ProductResponse response = productService.addProduct(request);
 
-    return ResponseEntity.status(201).body(savedProduct);
+    return ResponseEntity.status(201).body(response);
 }
 
 @GetMapping 
-public List<Product>getAllProducts(){
+public List<ProductResponse>getAllProducts(){
     return productService.getAllProduct();
 }
 
 @GetMapping("/{id}")
-public Product getProductById(@PathVariable long id){
+public ProductResponse getProductById(@PathVariable long id){
     return productService.getProductById(id);
 }
 
 @PutMapping("/{id}")
-public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequest request){
+public ProductResponse updateProduct(@PathVariable Long id, @RequestBody ProductRequest request){
     return productService.updateProduct(id, request);
 }
 
