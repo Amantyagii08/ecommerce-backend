@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import com.ecommerce.ecommerce_backend.dto.ProductRequest;
 import com.ecommerce.ecommerce_backend.dto.ProductResponse;
-
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController  
 @RequestMapping("/products")
@@ -34,8 +34,12 @@ public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductReq
 }
 
 @GetMapping 
-public List<ProductResponse>getAllProducts(){
-    return productService.getAllProduct();
+public Page<ProductResponse>getAllProducts( @RequestParam (defaultValue = "0")int page,
+    @RequestParam (defaultValue = "10")int size,
+@RequestParam (defaultValue = "id")String sortBy,
+@RequestParam (defaultValue = "asc")String direction){
+
+    return productService.getAllProduct(page,size,sortBy,direction);
 }
 
 @GetMapping("/{id}")

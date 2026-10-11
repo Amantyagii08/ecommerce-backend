@@ -3,12 +3,15 @@ import com.ecommerce.ecommerce_backend.entity.Product;
 import com.ecommerce.ecommerce_backend.entity.Category;
 import com.ecommerce.ecommerce_backend.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import com.ecommerce.ecommerce_backend.exception.ProductNotFoundExcertion;
 import com.ecommerce.ecommerce_backend.dto.ProductRequest;
 import com.ecommerce.ecommerce_backend.repository.CategoryRepository;
 import com.ecommerce.ecommerce_backend.exception.CategoryNotFoundException;
 import com.ecommerce.ecommerce_backend.dto.ProductResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ProductService {
@@ -55,11 +58,15 @@ public class ProductService {
     }
     
 
-    public List<ProductResponse> getAllProduct(){
-        return productRepository.findAll()
-        .stream()
-        .map(this::mapToResponse)
-        .toList();
+    public Page<ProductResponse> getAllProduct(int page,int size,String sortBy,String direction){
+        Sort sort = direction.equalsIgnoreCase("desc")
+        ?Sort.by(sortBy).descending()
+        :Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of( page,size,sort);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return  productPage.map(this::mapToResponse);
+        
+        
     }
     
     public ProductResponse getProductById(Long id){
