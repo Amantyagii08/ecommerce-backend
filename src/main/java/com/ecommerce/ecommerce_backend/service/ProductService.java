@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -98,6 +99,12 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(()-> new
         ProductNotFoundExcertion("Product with id "+id+" not found."));
         productRepository.delete(product);
+    }
+
+    public List<ProductResponse>searchProductByName(String name){
+        List<Product> product = productRepository.findByNameContainingIgnoreCase(name);
+       return product.stream().map(this::mapToResponse).toList();
+    
     }
 
     

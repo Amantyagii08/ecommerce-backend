@@ -14,6 +14,7 @@ import com.ecommerce.ecommerce_backend.dto.ProductRequest;
 import com.ecommerce.ecommerce_backend.dto.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 
 @RestController  
 @RequestMapping("/products")
@@ -57,6 +58,11 @@ public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
     productService.deleteProduct(id);
 
     return ResponseEntity.noContent().build();
+}
+
+@GetMapping ("/search")
+public List<ProductResponse>searchProductByName(@RequestParam String name){
+    return productService.searchProductByName(name);
 }
 
 
